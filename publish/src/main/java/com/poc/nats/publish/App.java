@@ -24,7 +24,7 @@ public class App
             // Build the configuration
             StreamConfiguration streamConfig = StreamConfiguration.builder()
                     .name("hello")
-                    .subjects("world")
+                    .subjects("world"
                     .storageType(StorageType.Memory)
                     .build();
 
