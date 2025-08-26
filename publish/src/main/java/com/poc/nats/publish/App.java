@@ -1,5 +1,7 @@
 package com.poc.nats.publish;
 
+import java.util.logging.Logger;
+
 import io.nats.client.Connection;
 import io.nats.client.JetStream;
 import io.nats.client.JetStreamManagement;
@@ -13,6 +15,7 @@ import io.nats.client.support.JsonUtils;
 
 public class App 
 {
+    public static final Logger logger = Logger.getLogger(App.class.getName());
     public static void main( String[] args )
     {
         try (Connection nc = Nats.connect("nats://localhost:4222")) {
@@ -25,9 +28,13 @@ public class App
                     .storageType(StorageType.Memory)
                     .build();
 
+            System.out.println("Creating Stream");
+
              // Create the stream
             StreamInfo streamInfo = jsm.addStream(streamConfig);
             JsonUtils.printFormatted(streamInfo);
+
+            logger.info("Publishing a message to the 'world' subject");
 
             JetStream js = nc.jetStream();
             PublishAck ack = js.publish("world", "one".getBytes());
